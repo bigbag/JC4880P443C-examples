@@ -1,0 +1,57 @@
+# PlatformIO
+.pio/
+.pioenvs/
+.piolibdeps/
+
+# ESP-IDF managed components (downloaded automatically by component manager)
+managed_components/
+**/managed_components/
+
+# ESP-IDF component manager lock files (contain machine-specific absolute paths)
+dependencies.lock
+**/dependencies.lock
+
+# Components from ESP registry (have .component_hash files)
+components/espressif__*/
+**/components/espressif__*/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Build artifacts
+*.o
+*.a
+*.elf
+*.bin
+*.hex
+*.map
+
+# macOS
+.DS_Store
+
+# Credentials (never commit these!)
+secrets.h
+credentials.h
+*.pem
+*.key
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+temp/
+
+# Python
+__pycache__/
+*.pyc
+.env
+venv/
+
+# Claude
+.claude/
+CLAUDE.md

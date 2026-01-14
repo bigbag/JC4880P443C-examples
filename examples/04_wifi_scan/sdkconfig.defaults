@@ -1,0 +1,112 @@
+# ESP-IDF Configuration for JC4880P443C (ESP32-P4)
+# Example 04: WiFi Scan via ESP-HOSTED (C6 co-processor)
+#
+# References:
+# - https://github.com/espressif/esp-hosted-mcu/blob/main/docs/esp32_p4_function_ev_board.md
+# - https://docs.espressif.com/projects/esp-idf/en/stable/esp32p4/api-guides/wifi-expansion.html
+
+# Target
+CONFIG_IDF_TARGET="esp32p4"
+
+# Flash configuration
+CONFIG_ESPTOOLPY_FLASHSIZE_16MB=y
+CONFIG_ESPTOOLPY_FLASHMODE_QIO=y
+
+# PSRAM configuration (32MB on JC4880P443C)
+CONFIG_SPIRAM=y
+CONFIG_SPIRAM_MODE_OCT=y
+CONFIG_SPIRAM_SPEED_200M=y
+CONFIG_SPIRAM_BOOT_INIT=y
+CONFIG_SPIRAM_ALLOW_STACK_EXTERNAL_MEMORY=y
+
+# Cache configuration for P4
+CONFIG_CACHE_L2_CACHE_256KB=y
+
+# FreeRTOS
+CONFIG_FREERTOS_HZ=1000
+
+# Main task stack size
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=10240
+
+# Performance optimization
+CONFIG_COMPILER_OPTIMIZATION_PERF=y
+
+# BSP LCD configuration (JC4880 480x800)
+CONFIG_BSP_LCD_TYPE_1024_600=y
+CONFIG_BSP_LCD_COLOR_FORMAT_RGB565=y
+CONFIG_BSP_LCD_DPI_BUFFER_NUMS=1
+
+# Backlight PWM channel
+CONFIG_BSP_DISPLAY_BRIGHTNESS_LEDC_CH=1
+
+# I2C configuration (for touch)
+CONFIG_BSP_I2C_NUM=0
+CONFIG_BSP_I2C_CLK_SPEED_HZ=400000
+
+# SD card and SPIFFS
+CONFIG_BSP_SD_MOUNT_POINT="/sdcard"
+CONFIG_BSP_SPIFFS_MOUNT_POINT="/spiffs"
+CONFIG_BSP_SPIFFS_PARTITION_LABEL="storage"
+CONFIG_BSP_SPIFFS_MAX_FILES=5
+
+# =============================================================================
+# ESP-HOSTED Configuration
+# WiFi via ESP32-C6 co-processor over SDIO
+# =============================================================================
+
+# Enable ESP WiFi Remote with ESP-HOSTED backend
+# This is CRITICAL - without it, ESP-HOSTED code is not compiled!
+CONFIG_ESP_WIFI_REMOTE_LIBRARY_HOSTED=y
+
+# Enable ESP-HOSTED (computed from ESP_WIFI_REMOTE_LIBRARY_HOSTED, but be explicit)
+CONFIG_ESP_HOSTED_ENABLED=y
+
+# SDIO transport for P4 <-> C6 communication
+CONFIG_ESP_HOSTED_SDIO_HOST_INTERFACE=y
+
+# Slave target (ESP32-C6 on JC4880P443C)
+CONFIG_SLAVE_IDF_TARGET_ESP32C6=y
+
+# P4 Function EV Board GPIO preset for SDIO
+CONFIG_ESP_HOSTED_P4_DEV_BOARD_FUNC_BOARD=y
+
+# WiFi Remote buffer configuration (use CONFIG_WIFI_RMT_* NOT CONFIG_ESP_WIFI_*)
+CONFIG_WIFI_RMT_STATIC_RX_BUFFER_NUM=16
+CONFIG_WIFI_RMT_DYNAMIC_RX_BUFFER_NUM=64
+CONFIG_WIFI_RMT_DYNAMIC_TX_BUFFER_NUM=64
+CONFIG_WIFI_RMT_AMPDU_TX_ENABLED=y
+CONFIG_WIFI_RMT_TX_BA_WIN=32
+CONFIG_WIFI_RMT_AMPDU_RX_ENABLED=y
+CONFIG_WIFI_RMT_RX_BA_WIN=32
+
+# LWIP TCP/IP stack optimization for WiFi
+CONFIG_LWIP_TCP_SND_BUF_DEFAULT=65534
+CONFIG_LWIP_TCP_WND_DEFAULT=65534
+CONFIG_LWIP_TCP_RECVMBOX_SIZE=64
+CONFIG_LWIP_UDP_RECVMBOX_SIZE=64
+CONFIG_LWIP_TCPIP_RECVMBOX_SIZE=64
+CONFIG_LWIP_TCP_SACK_OUT=y
+
+# =============================================================================
+# SDIO Pin Configuration for ESP-HOSTED
+# JC4880P443C P4<->C6 SDIO connection
+# =============================================================================
+# CLK:   GPIO18
+# CMD:   GPIO19
+# D0:    GPIO14
+# D1:    GPIO15
+# D2:    GPIO16
+# D3:    GPIO17
+# Reset: GPIO54
+
+# LVGL configuration
+CONFIG_LV_USE_DEMO_WIDGETS=y
+CONFIG_LV_FONT_MONTSERRAT_14=y
+CONFIG_LV_FONT_MONTSERRAT_16=y
+CONFIG_LV_FONT_MONTSERRAT_18=y
+
+# ESP LVGL port configuration
+CONFIG_LV_USE_DRAW_SW_ASM=n
+
+# Log level
+CONFIG_LOG_DEFAULT_LEVEL_INFO=y

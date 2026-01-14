@@ -1,0 +1,10 @@
+dependencies:
+  lvgl/lvgl:
+    version: "^9.2"
+    public: true
+  idf: ">=5.3"
+  # ESP-HOSTED components for Bluetooth via C6 co-processor
+  espressif/esp_wifi_remote:
+    version: "*"
+  espressif/esp_hosted:
+    version: "*"
